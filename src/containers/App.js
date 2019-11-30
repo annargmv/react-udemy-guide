@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 // import styled from 'styled-components';
-import Person from './Pesron/Person';
 // import Radium, {StyleRoot} from 'radium';
 
+// using styled-components
 // const StyledButton = styled.button`
 //   background-color: ${props => props.alt ? 'red' : 'green'};
 //   font: interit;
@@ -57,62 +59,24 @@ class App extends Component {
     this.setState({showPersons: !doesnShow});
   }
   render() {
-    const style = {
-      // backgroundColor: 'green',
-      // font: 'interit',
-      // border: '1px solid blue',
-      // padding: '8px',
-      // cursor: 'pointer', /*chnages the pointer to something different when hovering on the button*/
-      // ':hover': { /*radium */ 
-      //   backgroundColor: 'lightgreen',
-      //   color: 'black'
-      // }
-    };
-
     let persons = null;
+    
 
     if ( this.state.showPersons ) {
-      persons = (
-        <div>
-          {
-            this.state.persons.map((person, index) => {
-              return <Person 
-                click={() => this.deletePersonHandler(person ,index)}
-                name={person.name} 
-                age={person.age} 
-                key={person.id}
-                changed={(event) => this.nameChangedHandler(event, person.id)}/>
-          })}
-        </div>
-      );
-
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    }
-
-    // let classes = ['red', 'bold'].join(' ');
-    let classes = [];
-
-    if (this.state.persons.length <= 3) {
-      classes.push('red');
-    }
-
-    if (this.state.persons.length <= 2) {
-      classes.push('bold');
+      persons = <Persons 
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}/>;
     }
     
     return (
       // <StyleRoot>
-        <div className="App">
-          <h1>Hey this is Anna</h1>
-          <p className={classes.join(' ')}>This is really working</p>   
-          {/* <StyledButton alt={this.state.showPersons} onClick={this.tooglePersonsHandler}> */}
-          <button className="button" onClick={this.tooglePersonsHandler}>
-            Toggle Names
-          </button>
+        <div className={classes.App}>
+          <Cockpit 
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons} 
+            persons={this.state.persons}
+            clicked={this.tooglePersonsHandler}/>
           {/* </StyledButton> */}
           {persons}
         </div>
@@ -122,7 +86,6 @@ class App extends Component {
   }
 }
 
-// export default App;
 // export default Radium(App); // higher order component
 export default App; 
 
