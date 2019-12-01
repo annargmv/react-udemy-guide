@@ -5,30 +5,40 @@ import Cockpit from '../components/Cockpit/Cockpit';
 // import styled from 'styled-components';
 // import Radium, {StyleRoot} from 'radium';
 
-// using styled-components
-// const StyledButton = styled.button`
-//   background-color: ${props => props.alt ? 'red' : 'green'};
-//   font: interit;
-//   border: 1px solid blue;
-//   padding: 8px;
-//   cursor: pointer; /*chnages the pointer to something different when hovering on the button*/
-
-//   &:hover { /*radium */ 
-//     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-//     color: black;
-//   }
-// `;
-
 class App extends Component {
-  state = {
-    persons: [
-      { id: 1, name: 'Anna', age: '28'},
-      { id: 2, name: 'Alon', age: '31'},
-      { id: 3, name: 'Nona', age: '59'}
-    ],
-    otherState: 'some other value',
-    showPersons: false
-  };//comes only from the inside property or component. It holdes components internal data
+  constructor(props){
+    super(props);
+    this.state = {
+      persons: [
+        { id: 1, name: 'Anna', age: '28'},
+        { id: 2, name: 'Alon', age: '31'},
+        { id: 3, name: 'Nona', age: '59'}
+      ],
+      otherState: 'some other value',
+      showPersons: false
+    };//state comes only from the inside property or component. It holdes components internal data
+  }
+
+  static getDerivicedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js]', 'shouldComponentDidUpdate' );
+    return true;
+  }
+  componentDidUpdate() {
+    console.log('[App.js]', 'componentDidUpdate' );
+  }
 
   deletePersonHandler = (personIndex) => {
     //const persons = [...this.state.persons]
@@ -60,8 +70,7 @@ class App extends Component {
   }
   render() {
     let persons = null;
-    
-
+  
     if ( this.state.showPersons ) {
       persons = <Persons 
           persons={this.state.persons}
@@ -75,17 +84,14 @@ class App extends Component {
           <Cockpit 
             title={this.props.appTitle}
             showPersons={this.state.showPersons} 
-            persons={this.state.persons}
+            personsLength={this.state.persons.length}
             clicked={this.tooglePersonsHandler}/>
-          {/* </StyledButton> */}
           {persons}
         </div>
         //</StyleRoot>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hey this is Anna'))
   }
 }
-
 // export default Radium(App); // higher order component
 export default App; 
 
