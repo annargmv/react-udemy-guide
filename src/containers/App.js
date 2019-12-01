@@ -4,6 +4,8 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import WithClass from '../hoc/withClass';
 import Aux from '../hoc/Aux';
+import AuthContext from '../context/auth-context';
+
 // import styled from 'styled-components';
 // import Radium, {StyleRoot} from 'radium';
 
@@ -17,7 +19,8 @@ class App extends Component {
         { id: 3, name: 'Nona', age: '59'}
       ],
       otherState: 'some other value',
-      showPersons: false
+      showPersons: false,
+      authenticated: false
     };//state comes only from the inside property or component. It holdes components internal data
   }
 
@@ -70,6 +73,11 @@ class App extends Component {
     const doesnShow = this.state.showPersons;
     this.setState({showPersons: !doesnShow});
   }
+
+  logInHandler =() => {
+    const isauthincated = this.state.authenticated;
+    this.setState({authenticated: !isauthincated});
+  }
   render() {
     let persons = null;
   
@@ -77,7 +85,8 @@ class App extends Component {
       persons = <Persons 
           persons={this.state.persons}
           clicked={this.deletePersonHandler}
-          changed={this.nameChangedHandler}/>;
+          changed={this.nameChangedHandler}
+          isAuthenticated={this.logInHandler}/>;
     }
     
     return (
@@ -85,13 +94,17 @@ class App extends Component {
         // <div className={classes.App}>
         // <WithClass classes={classes.App}>
         <Aux>
+          <AuthContext.Provider
+            value={{authenticated: this.state.authenticated,
+            login: this.logInHandler}}>
           <Cockpit 
             title={this.props.appTitle}
             showPersons={this.state.showPersons} 
             personsLength={this.state.persons.length}
             clicked={this.tooglePersonsHandler}/>
           {persons}
-        {/* // </div> */}
+        {/* // </div> */} 
+        </AuthContext.Provider>
         </Aux>
         // </WithClass>
         //</StyleRoot>
