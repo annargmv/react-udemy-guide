@@ -1,7 +1,10 @@
 //this component is stateless becuase doesn't contains internal state managment
-import React from 'react';
+import React, {Component} from 'react';
+import Aux from '../../../hoc/Aux'
 import styled from 'styled-components';
-import classes from './Person.css'
+import classes from './Person.css';
+import WithClass from '../../../hoc/withClass';
+import PropTypes from 'prop-types';
 
 // import './Person.css';
 // import Radium from 'radium';
@@ -19,25 +22,35 @@ import classes from './Person.css'
 //     }
 // `;
 
-const person = (props) => {
+class Person extends Component {
     // return <p>I'm a person and I am {Math.floor(Math.random() * 30)}</p>
     // const style = {
     //     '@media (min-width: 500px)': {
     //         width: '450px'
     //     }
     // };
+    render() {
+        return (
+            <Aux>
+                 {/* <div className={classes.Person}> */}
+                    {/* <StyledId> */}  
+                    <p onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age}</p>
+                    <p>{this.props.children}</p>
+                    <input type="text" onChange={this.props.changed} value={this.props.name}/> 
+                     {/* It simply means that the component will display whatever is included in between the opening and closing tags while invoking the component. The component would usually be invoked from App component. */}
+             {/* </StyledId> */}
+                 {/* </div> */}
+            </Aux>
+        );
+    }
+};
 
-    return (
-        <div className={classes.Person} /*style={style}*/>
-         {/* <StyledId> */}
-            <p onClick={props.click}>I'm {props.name} and I am {props.age}</p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.changed} value={props.name}/> 
-            {/* It simply means that the component will display whatever is included in between the opening and closing tags while invoking the component. The component would usually be invoked from App component. */}
-        {/* </StyledId> */}
-        </div>
-    )
+Person.PropTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
 };
 
 // export default Radium(person);    
-export default person;    
+export default WithClass(Person, classes.Person);    

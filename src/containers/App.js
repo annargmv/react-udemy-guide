@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 // import styled from 'styled-components';
 // import Radium, {StyleRoot} from 'radium';
 
@@ -80,20 +82,24 @@ class App extends Component {
     
     return (
       // <StyleRoot>
-        <div className={classes.App}>
+        // <div className={classes.App}>
+        // <WithClass classes={classes.App}>
+        <Aux>
           <Cockpit 
             title={this.props.appTitle}
             showPersons={this.state.showPersons} 
             personsLength={this.state.persons.length}
             clicked={this.tooglePersonsHandler}/>
           {persons}
-        </div>
+        {/* // </div> */}
+        </Aux>
+        // </WithClass>
         //</StyleRoot>
     );
   }
 }
 // export default Radium(App); // higher order component
-export default App; 
+export default WithClass(App, classes.App); 
 
 // this is the statefull components that contains state management
 
